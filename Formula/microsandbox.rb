@@ -37,22 +37,22 @@ class Microsandbox < Formula
   def install
     bin.install "msb"
 
+    # Install libkrunfw into libexec so it stays private to this formula
+    # and doesn't conflict with any standalone libkrunfw installation.
     on_macos do
       # Tarball contains: libkrunfw.5.dylib
-      # Install with versioned name and create symlinks
-      lib.install "libkrunfw.#{LIBKRUNFW_ABI}.dylib"
-      lib.install_symlink "libkrunfw.#{LIBKRUNFW_ABI}.dylib" => "libkrunfw.dylib"
+      libexec.install "libkrunfw.#{LIBKRUNFW_ABI}.dylib"
+      libexec.install_symlink "libkrunfw.#{LIBKRUNFW_ABI}.dylib" => "libkrunfw.dylib"
 
-      # Update the binary's rpath so it can find the library in the Homebrew prefix
-      system "install_name_tool", "-add_rpath", lib.to_s, bin/"msb"
+      # Point the binary's rpath at our private libexec directory
+      system "install_name_tool", "-add_rpath", libexec.to_s, bin/"msb"
     end
 
     on_linux do
       # Tarball contains: libkrunfw.so.5.2.1
-      # Install with versioned name and create symlinks
-      lib.install "libkrunfw.so.#{LIBKRUNFW_VERSION}"
-      lib.install_symlink "libkrunfw.so.#{LIBKRUNFW_VERSION}" => "libkrunfw.so.#{LIBKRUNFW_ABI}"
-      lib.install_symlink "libkrunfw.so.#{LIBKRUNFW_VERSION}" => "libkrunfw.so"
+      libexec.install "libkrunfw.so.#{LIBKRUNFW_VERSION}"
+      libexec.install_symlink "libkrunfw.so.#{LIBKRUNFW_VERSION}" => "libkrunfw.so.#{LIBKRUNFW_ABI}"
+      libexec.install_symlink "libkrunfw.so.#{LIBKRUNFW_VERSION}" => "libkrunfw.so"
     end
   end
 
