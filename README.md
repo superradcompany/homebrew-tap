@@ -15,3 +15,10 @@ brew install microsandbox
 brew update
 brew upgrade microsandbox
 ```
+
+## Uninstall
+
+```sh
+brew uninstall microsandbox
+brew untap superradcompany/microsandbox
+```
