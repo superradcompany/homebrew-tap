@@ -1,12 +1,14 @@
-# homebrew-microsandbox
+# homebrew-tap
 
-Homebrew formula for [microsandbox](https://github.com/superradcompany/microsandbox).
+Homebrew formula for projects mantained by [Super Rad Company](https://superrad.company). 
+
+They include:
+- [microsandbox](https://github.com/superradcompany/microsandbox)
 
 ## Install
 
 ```sh
-brew tap superradcompany/microsandbox
-brew install microsandbox
+brew install superradcompany/tap/microsandbox
 ```
 
 ## Update
@@ -20,5 +22,5 @@ brew upgrade microsandbox
 
 ```sh
 brew uninstall microsandbox
-brew untap superradcompany/microsandbox
+brew untap superradcompany/tap
 ```
