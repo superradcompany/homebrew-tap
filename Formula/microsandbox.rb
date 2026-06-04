@@ -5,7 +5,7 @@ class Microsandbox < Formula
   desc "Spins up lightweight VMs in milliseconds from SDKs"
   homepage "https://microsandbox.dev"
   license "Apache-2.0"
-  version "0.3.12"
+  version "0.5.4"
 
   # libkrunfw versioned filenames (must match the build)
   LIBKRUNFW_VERSION = "5.2.1"
@@ -14,7 +14,7 @@ class Microsandbox < Formula
   on_macos do
     on_arm do
       url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-darwin-aarch64.tar.gz"
-      sha256 "1134aa2f57d29dec0f516ba001aa796c27331b553826a7c5a8effc1a947d86a4"
+      sha256 "49ca6bc817a50aee17da84bfc77f689f1a6bb2ea5d4765526e6e85daf51b809a"
     end
 
     on_intel do
@@ -25,27 +25,31 @@ class Microsandbox < Formula
   on_linux do
     on_arm do
       url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-linux-aarch64.tar.gz"
-      sha256 "108dce727c350f17b2925bbdde00056af6760809d332963913757d9aaae942b7"
+      sha256 "ee0eb21e0992004548fdd76a85708bb317e0d1b40b09edec714d24edea81f2a1"
     end
 
     on_intel do
       url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-linux-x86_64.tar.gz"
-      sha256 "bd0eb76a91e4a0dcdd7c16a3525f35435727422a43c4470f31d3aec1c6b56902"
+      sha256 "247238cb223dc329ff2090b72c209f5d74b730428ef4baa0a67134706934997a"
     end
   end
 
   def install
-    bin.install "msb"
+    # Keep msb and its private libkrunfw together in libexec, then expose msb on
+    # PATH through a wrapper script. The binary already carries an
+    # @executable_path rpath, so it finds the library sitting beside it without
+    # any install_name_tool edit. That matters on macOS: modifying the binary
+    # would invalidate its code signature, and the release binary is signed with
+    # the com.apple.security.hypervisor and disable-library-validation
+    # entitlements it needs to boot VMs. Leaving the binary untouched preserves
+    # the signature and those entitlements; a modified binary would be killed on
+    # launch or lose the entitlements.
+    libexec.install "msb"
 
-    # Install libkrunfw into libexec so it stays private to this formula
-    # and doesn't conflict with any standalone libkrunfw installation.
     on_macos do
       # Tarball contains: libkrunfw.5.dylib
       libexec.install "libkrunfw.#{LIBKRUNFW_ABI}.dylib"
       libexec.install_symlink "libkrunfw.#{LIBKRUNFW_ABI}.dylib" => "libkrunfw.dylib"
-
-      # Point the binary's rpath at our private libexec directory
-      system "install_name_tool", "-add_rpath", libexec.to_s, bin/"msb"
     end
 
     on_linux do
@@ -54,6 +58,8 @@ class Microsandbox < Formula
       libexec.install_symlink "libkrunfw.so.#{LIBKRUNFW_VERSION}" => "libkrunfw.so.#{LIBKRUNFW_ABI}"
       libexec.install_symlink "libkrunfw.so.#{LIBKRUNFW_VERSION}" => "libkrunfw.so"
     end
+
+    bin.write_exec_script libexec/"msb"
   end
 
   test do
