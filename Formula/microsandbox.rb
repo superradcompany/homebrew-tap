@@ -5,7 +5,7 @@ class Microsandbox < Formula
   desc "Spins up lightweight VMs in milliseconds from SDKs"
   homepage "https://microsandbox.dev"
   license "Apache-2.0"
-  version "0.6.3"
+  version "0.6.4"
 
   # libkrunfw versioned filenames (must match the build)
   LIBKRUNFW_VERSION = "5.2.1"
@@ -14,7 +14,7 @@ class Microsandbox < Formula
   on_macos do
     on_arm do
       url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-darwin-aarch64.tar.gz"
-      sha256 "140d96cccc1a29be6876de528bc425557cc4a002ef99937d7d0c1928dc1bb8a1"
+      sha256 "2c2bd946956e5d703c41947ef9b627a0c2178e8885fd1e49465e18011c9c420f"
     end
 
     on_intel do
@@ -25,12 +25,12 @@ class Microsandbox < Formula
   on_linux do
     on_arm do
       url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-linux-aarch64.tar.gz"
-      sha256 "02f648346533ac3c13496b2ccbc4f4e4784bfe26776663a0f0d0b220e67ff399"
+      sha256 "b9a2eb788c0a61342c1d41b1d0ba8e866db3afe6e6580fd4afbf8430bdf9ee05"
     end
 
     on_intel do
       url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-linux-x86_64.tar.gz"
-      sha256 "4c4586a98eea2df7d7269513394473473f3b23063f3c58329b4d37e6e91fdf5a"
+      sha256 "ccefa5a0b7663a64825aada69182af5e6ad7cf1fdd6c75f4f8777b361970b328"
     end
   end
 
