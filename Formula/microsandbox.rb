@@ -4,8 +4,8 @@
 class Microsandbox < Formula
   desc "Spins up lightweight VMs in milliseconds from SDKs"
   homepage "https://microsandbox.dev"
-  license "Apache-2.0"
   version "0.6.16"
+  license "Apache-2.0"
 
   # libkrunfw versioned filenames (must match the build)
   LIBKRUNFW_VERSION = "5.2.1"
@@ -46,20 +46,25 @@ class Microsandbox < Formula
     # launch or lose the entitlements.
     libexec.install "msb"
 
-    on_macos do
+    if OS.mac?
       # Tarball contains: libkrunfw.5.dylib
       libexec.install "libkrunfw.#{LIBKRUNFW_ABI}.dylib"
-      libexec.install_symlink "libkrunfw.#{LIBKRUNFW_ABI}.dylib" => "libkrunfw.dylib"
+      libexec.install_symlink libexec/"libkrunfw.#{LIBKRUNFW_ABI}.dylib" => "libkrunfw.dylib"
     end
 
-    on_linux do
+    if OS.linux?
       # Tarball contains: libkrunfw.so.5.2.1
       libexec.install "libkrunfw.so.#{LIBKRUNFW_VERSION}"
-      libexec.install_symlink "libkrunfw.so.#{LIBKRUNFW_VERSION}" => "libkrunfw.so.#{LIBKRUNFW_ABI}"
-      libexec.install_symlink "libkrunfw.so.#{LIBKRUNFW_VERSION}" => "libkrunfw.so"
+      libexec.install_symlink libexec/"libkrunfw.so.#{LIBKRUNFW_VERSION}" => "libkrunfw.so.#{LIBKRUNFW_ABI}"
+      libexec.install_symlink libexec/"libkrunfw.so.#{LIBKRUNFW_VERSION}" => "libkrunfw.so"
     end
 
-    bin.write_exec_script libexec/"msb"
+    bin.mkpath
+    File.write(bin/"msb", <<~SH)
+      #!/bin/bash
+      exec "#{libexec}/msb" "$@"
+    SH
+    chmod 0755, bin/"msb"
   end
 
   test do
