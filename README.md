@@ -11,19 +11,6 @@ They include:
 brew install superradcompany/tap/microsandbox
 ```
 
-### mise
-
-On Apple Silicon macOS, microsandbox can also be installed through mise's
-Homebrew package manager:
-
-```toml
-[bootstrap.packages]
-"brew:superradcompany/tap/microsandbox" = "latest"
-```
-
-The tap's mise metadata currently targets Apple Silicon macOS. Linux users
-should install through Homebrew directly.
-
 ## Update
 
 ```sh
