@@ -12,7 +12,7 @@ on:
 jobs:
   update:
     name: Update Homebrew Formula
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 
@@ -32,11 +32,14 @@ jobs:
           chmod +x scripts/update-formula.sh
           scripts/update-formula.sh "${{ steps.version.outputs.version }}"
 
+      - name: Generate formula API metadata
+        run: brew ruby scripts/generate-formula-api.rb
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Formula/microsandbox.rb
+          git add Formula/microsandbox.rb api/formula/microsandbox.json
           git diff --staged --quiet && echo "No changes" && exit 0
           git commit -m "Update microsandbox to ${{ steps.version.outputs.version }}"
           git push
