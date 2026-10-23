@@ -4,7 +4,7 @@
 class Microsandbox < Formula
   desc "Spins up lightweight VMs in milliseconds from SDKs"
   homepage "https://microsandbox.dev"
-  version "0.7.9"
+  version "0.7.10"
   license "Apache-2.0"
 
   # libkrunfw ABI major used by the macOS dylib filename. On Linux the
@@ -14,7 +14,7 @@ class Microsandbox < Formula
   on_macos do
     on_arm do
       url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-darwin-aarch64.tar.gz"
-      sha256 "ba71b8726763ce247dd51d1b2585923f6f0f5ee73c012fd931dfb2f8001ada6a"
+      sha256 "454551fd968a0dbaab771a0cb629081fbc285017183874754b0c8a42c12528f8"
     end
 
     on_intel do
@@ -25,12 +25,12 @@ class Microsandbox < Formula
   on_linux do
     on_arm do
       url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-linux-aarch64.tar.gz"
-      sha256 "3361f289c124a722124e8d8b326e62cb1f8ce7a54e5f23e423626622e6a123fa"
+      sha256 "b971075c143bbe1eb0c19970a0a305a8f1bd662446f01efd5a8870c9b203e3e1"
     end
 
     on_intel do
       url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-linux-x86_64.tar.gz"
-      sha256 "04a6a3bb809cfc3bf900dbe9f0ac23f04890b42ba59f1256ef7f35b6fabf90f9"
+      sha256 "b56b173ed9b4074a226763d8237aaf3942603949584011dd33bdcf1d439abb18"
     end
   end
 
