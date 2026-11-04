@@ -12,13 +12,17 @@ class Microsandbox < Formula
   LIBKRUNFW_ABI = "5"
 
   on_macos do
+    depends_on arch: :arm64
+
     on_arm do
       url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-darwin-aarch64.tar.gz"
       sha256 "5eb53ca1d6beb36caa64d19602284b9ce37872eff340a8db0542ab91b5808c96"
     end
 
     on_intel do
-      odie "microsandbox requires Apple Silicon (M1+). x86_64 macOS is not supported."
+      # The architecture requirement blocks installation before Homebrew fetches this ARM archive.
+      url "https://github.com/superradcompany/microsandbox/releases/download/v#{version}/microsandbox-darwin-aarch64.tar.gz"
+      sha256 "5eb53ca1d6beb36caa64d19602284b9ce37872eff340a8db0542ab91b5808c96"
     end
   end
 
