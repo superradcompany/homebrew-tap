@@ -48,17 +48,16 @@ sed -i.bak "s/^  LIBKRUNFW_VERSION = \".*\"/  LIBKRUNFW_VERSION = \"${FIRMWARE_V
 # Update version
 sed -i.bak "s/^  version \".*\"/  version \"${VERSION}\"/" "$FORMULA"
 
-# Update SHA256 checksums (order: darwin-aarch64, linux-aarch64, linux-x86_64)
-# Use awk to update the sha256 lines in order of appearance
-awk -v sha1="$SHA_DARWIN_AARCH64" \
-    -v sha2="$SHA_LINUX_AARCH64" \
-    -v sha3="$SHA_LINUX_X86_64" '
-BEGIN { count = 0 }
-/sha256 "/ {
-    count++
-    if (count == 1) sub(/"[0-9a-f]{64}"/, "\"" sha1 "\"")
-    else if (count == 2) sub(/"[0-9a-f]{64}"/, "\"" sha2 "\"")
-    else if (count == 3) sub(/"[0-9a-f]{64}"/, "\"" sha3 "\"")
+# Update SHA256 checksums by release archive
+awk -v darwin_arm="$SHA_DARWIN_AARCH64" \
+    -v linux_arm="$SHA_LINUX_AARCH64" \
+    -v linux_intel="$SHA_LINUX_X86_64" '
+/microsandbox-darwin-aarch64\.tar\.gz/ { sha = darwin_arm }
+/microsandbox-linux-aarch64\.tar\.gz/ { sha = linux_arm }
+/microsandbox-linux-x86_64\.tar\.gz/ { sha = linux_intel }
+/sha256 "/ && sha {
+    sub(/"[0-9a-f]{64}"/, "\"" sha "\"")
+    sha = ""
 }
 { print }
 ' "$FORMULA" > "${FORMULA}.tmp" && mv "${FORMULA}.tmp" "$FORMULA"
