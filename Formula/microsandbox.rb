@@ -71,6 +71,8 @@ class Microsandbox < Formula
       exec "#{libexec}/msb" "$@"
     SH
     chmod 0755, bin/"msb"
+
+    generate_completions_from_executable(bin/"msb", "completion")
   end
 
   test do
