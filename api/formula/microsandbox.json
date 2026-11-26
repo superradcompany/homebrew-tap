@@ -9,17 +9,17 @@
   "license": "Apache-2.0",
   "homepage": "https://microsandbox.dev",
   "versions": {
-    "stable": "0.8.2",
+    "stable": "0.8.3",
     "head": null,
     "bottle": false
   },
   "urls": {
     "stable": {
-      "url": "https://github.com/superradcompany/microsandbox/releases/download/v0.8.2/microsandbox-darwin-aarch64.tar.gz",
+      "url": "https://github.com/superradcompany/microsandbox/releases/download/v0.8.3/microsandbox-darwin-aarch64.tar.gz",
       "tag": null,
       "revision": null,
       "using": null,
-      "checksum": "f7f70fe925c1d2d8146dc40565706c3bb07514d76852562135400a95664babaa"
+      "checksum": "79dfef79d9933f029896bb961a2ea8f587f5315e3d40dc743435d8507a04d930"
     }
   },
   "patches": [],
@@ -70,6 +70,6 @@
   "tap_git_head": "HEAD",
   "ruby_source_path": "Formula/microsandbox.rb",
   "ruby_source_checksum": {
-    "sha256": "d6c0486475fc32a2058bcd175e4d0715e6894cfebe102365869b2cf686ba548d"
+    "sha256": "e03dfae1c88f07d7aff39a3a68a6ea24525dd732648513085cc97ab15ef49048"
   }
 }
